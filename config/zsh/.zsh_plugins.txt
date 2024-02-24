@@ -1,0 +1,20 @@
+mattmc3/zephyr path:plugins/completion
+djui/alias-tips
+
+# ohmyzsh plugins
+ohmyzsh/ohmyzsh path:lib/compfix.zsh
+ohmyzsh/ohmyzsh path:lib/completion.zsh
+ohmyzsh/ohmyzsh path:lib/correction.zsh
+ohmyzsh/ohmyzsh path:lib/directories.zsh
+ohmyzsh/ohmyzsh path:lib/git.zsh
+ohmyzsh/ohmyzsh path:lib/grep.zsh
+ohmyzsh/ohmyzsh path:lib/spectrum.zsh
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/fzf
+ohmyzsh/ohmyzsh path:plugins/docker-compose
+ohmyzsh/ohmyzsh path:plugins/docker
+
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+zdharma-continuum/fast-syntax-highlighting kind:defer
+belak/zsh-utils path:completion

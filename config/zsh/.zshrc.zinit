@@ -1,0 +1,112 @@
+
+## zinit install
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+## End of zinit install
+
+zinit wait lucid for \
+	OMZL::compfix.zsh \
+	OMZL::completion.zsh \
+	OMZL::correction.zsh \
+	OMZL::directories.zsh \
+	OMZL::git.zsh \
+	OMZL::grep.zsh \
+	OMZL::spectrum.zsh \
+	OMZP::git \
+	OMZP::fzf \
+	OMZP::docker-compose \
+	as"completion" \
+    OMZP::docker \
+    as"completion" \
+    djui/alias-tips \
+    MichaelAquilina/zsh-you-should-use \
+    atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    atinit"zicompinit; zicdreplay" \
+        zsh-users/zsh-completions
+
+zinit wait lucid for \
+    light-mode atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    light-mode atinit"typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay" \
+        zdharma/fast-syntax-highlighting \
+    light-mode blockf atpull'zinit creinstall -q .' \
+    atinit"
+        zstyle ':completion:*' completer _expand _complete _ignored _approximate
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+        zstyle ':completion:*' menu select=2
+        zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+        zstyle ':completion:*:descriptions' format '-- %d --'
+        zstyle ':completion:*:processes' command 'ps -au$USER'
+        zstyle ':completion:complete:*:options' sort false
+        zstyle ':fzf-tab:complete:_zlua:*' query-string input
+        zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm,cmd -w -w'
+        zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
+        zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
+    " \
+        zsh-users/zsh-completions
+
+zinit wait lucid from"gh-r" as"completion" \
+    atclone"
+        \cp -r man $XDG_DATA_HOME
+    " \
+    atpull"%atclone" \
+    atload'
+        eval "$(zoxide init --cmd cd zsh)"
+    ' for \
+    ajeetdsouza/zoxide
+
+# kubectx and kubens
+# zinit wait lucid from"gh-r" as"null" bpick"kubectx" id-as"ahmetb---kubectx" sbin"kubectx" for ahmetb/kubectx
+# zinit wait lucid from"gh-r" as"null" bpick"kubens" id-as"ahmetb---kubens" sbin"kubens" for ahmetb/kubectx
+# # Krew
+# zinit wait lucid from"gh-r" as"null" atclone"./krew-linux_amd64 install krew" for kubernetes-sigs/krew
+
+## Alias
+alias k="kubctl"
+alias kk="kustomize"
+alias kctx="kubectx"
+alias kns="kubens"
+if which nvim >/dev/null ;then
+    alias vi='nvim'
+    alias vim='nvim'
+else
+    alias vi='vim'
+fi
+## End of Alias
+
+# FZF SETTINGS
+FD_OPTIONS="--hidden --follow"
+export FZF_DEFAULT_OPTS="--prompt '⯈ ' --marker=+ --color=dark --layout=reverse --color=fg:250,fg+:15,hl:203,hl+:203 --color=info:100,pointer:15,marker:220,spinner:11,header:-1,gutter:-1,prompt:15"
+export FZF_DEFAULT_COMMAND="fd --type f --type l $FD_OPTIONS || git ls-files --cached --others --exclude-standard"
+export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
+export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
+export FZF_COMPLETION_OPTS="-x"
+
+_fzf_compgen_path() {
+    fd --hidden --follow . "$1"
+}
+_fzf_compgen_dir() {
+    fd --type d --hidden --follow . "$1"
+}
+# End of FZF settings
+
+# zinit ice atinit"
+#         ZSH_TMUX_FIXTERM=true;
+#         ZSH_TMUX_AUTOSTART=true;
+#         ZSH_TMUX_AUTOCONNECT=true;"
+
+. /opt/asdf-vm/asdf.sh
+eval "$(atuin init zsh)"
+eval "$(starship init zsh)"
+
+if [[ $DISPLAY ]]; then
+    # If not running interactively, do not do anything
+    [[ $- != *i* ]] && return
+    # Only start tmux when opening a "real" terminal emulator
+    [[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]] && eval "$(zellij setup --generate-auto-start zsh)"
+fi
