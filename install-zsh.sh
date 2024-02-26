@@ -4,7 +4,8 @@ yay -S zsh \
     zoxide \
     asdf-vm \
     zellij \
-    bat
+    bat \
+    fd
 
 chsh -s $(which zsh)
 
