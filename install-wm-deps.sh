@@ -34,7 +34,8 @@ yay -S base-devel \
     grim \
     wl-clipboard \
     libappindicator-gtk3 \
-    batsignal
+    batsignal \
+    xwaylandvideobridge-git
 
 # yay -S base-devel \
 #     pokemon-colorscripts-git \
