@@ -10,3 +10,5 @@ So many folks and repositories that I forgot to write, I'm so sorry, if you reco
 - https://github.com/PROxZIMA/.dotfiles
 - https://gist.github.com/numToStr/53a0bf7e8ac9c5aa98d52c112980fb0f
 - https://github.com/dj95/zjstatus
+- https://github.com/zDyanTB/HyprNova
+- https://github.com/zDyanTB/aesthic-wallpapers

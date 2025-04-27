@@ -35,7 +35,10 @@ yay -S base-devel \
     wl-clipboard \
     libappindicator-gtk3 \
     batsignal \
-    xwaylandvideobridge-git
+    xwaylandvideobridge-git \
+    foot \
+    python-pywal \
+    hyprshade
 
 # yay -S base-devel \
 #     pokemon-colorscripts-git \

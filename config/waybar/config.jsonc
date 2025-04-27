@@ -8,7 +8,7 @@
     "margin-right": 0,
     "modules-left": ["cpu", "memory", "disk", "custom/playerctl", "custom/playerlabel" ],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["tray", "custom/hyprpicker", "custom/randwall", "network", "custom/notifications", "backlight", "battery", "pulseaudio", "clock"],
+    "modules-right": ["tray", "custom/hyprshade","custom/hyprpicker", "custom/randwall", "network", "custom/notifications", "backlight", "battery", "pulseaudio", "clock"],
     // Modules configuration
 	"clock": {
 		"format": "  {:%H:%M}",
@@ -170,6 +170,11 @@
     "format": "󰏘",
     "on-click": "bash $HOME/scripts/swwwelect_wallp.sh",
     "on-click-right": "bash $HOME/.config/hypr/wall.sh"
+  },
+  "custom/hyprshade": {
+    "format": "",
+    "on-click": "bash $HOME/scripts/blue-light-toggle.sh"
+    // "on-click-right": "bash $HOME/.config/hypr/wall.sh"
   },
   "custom/launcher": {
     "format": "󰈸",
